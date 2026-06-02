@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>计划安排表</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="daily-quote" aria-label="每日鼓励">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <p id="dailyQuote"></p>
+      </section>
+
+      <section class="planner-band">
+        <div class="planner-head">
+          <div>
+            <p class="eyebrow">Weekly Planner</p>
+            <h1>计划安排表</h1>
+          </div>
+          <div class="week-tools" aria-label="周切换">
+            <button class="clear-button" id="updateBtn" type="button">更新</button>
+            <button class="icon-button" id="prevWeek" type="button" title="上一周" aria-label="上一周">
+              <span aria-hidden="true">‹</span>
+            </button>
+            <button class="today-button" id="todayBtn" type="button">今天</button>
+            <button class="icon-button" id="nextWeek" type="button" title="下一周" aria-label="下一周">
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="date-line">
+          <strong id="monthLabel"></strong>
+          <span id="weekRange"></span>
+        </div>
+
+        <div class="schedule-wrap" aria-label="课程表式计划安排">
+          <div class="schedule-grid" id="scheduleGrid"></div>
+        </div>
+      </section>
+
+      <section class="summary-band">
+        <div class="summary-head">
+          <div>
+            <p class="eyebrow">Summary</p>
+            <h2>计划总结表</h2>
+          </div>
+          <button class="clear-button" id="clearDone" type="button">清除已完成</button>
+        </div>
+
+        <div class="summary-table-wrap">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th scope="col">完成</th>
+                <th scope="col">日期</th>
+                <th scope="col">星期</th>
+                <th scope="col">时间</th>
+                <th scope="col">计划内容</th>
+              </tr>
+            </thead>
+            <tbody id="summaryBody"></tbody>
+          </table>
+          <p class="empty-state" id="emptyState">点击上方时间段，输入你的计划后，这里会自动生成总结。</p>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="plan-dialog" id="planDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow" id="dialogDate"></p>
+            <h3 id="dialogTime"></h3>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" aria-label="关闭">×</button>
+        </div>
+
+        <label class="plan-field">
+          <span>结束时间</span>
+          <select id="endTime"></select>
+        </label>
+
+        <label class="plan-field">
+          <span>持续到</span>
+          <input id="repeatUntil" type="date" />
+        </label>
+
+        <label class="plan-field">
+          <span>任务属性</span>
+          <select id="planCategory"></select>
+        </label>
+
+        <label class="plan-field">
+          <span>计划内容</span>
+          <textarea id="planText" rows="4" placeholder="例如：复习数学、完成项目、健身训练"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="delete-button" id="deletePlan" value="delete" type="submit">删除</button>
+          <button class="save-button" id="savePlan" value="save" type="submit">保存计划</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="wide-dialog" id="carryoverDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Reminder</p>
+            <h3>昨日剩余未完成任务</h3>
+          </div>
+        </div>
+        <p class="dialog-note">是否加入到今日任务中？如果选择否，这些昨日剩余未完成任务会被删除。</p>
+        <div class="task-list" id="carryoverList"></div>
+        <div class="dialog-actions">
+          <button class="delete-button" id="discardCarryover" value="discard" type="submit">否，删除</button>
+          <button class="save-button" id="acceptCarryover" value="accept" type="submit">是，加入今日</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="wide-dialog" id="rescheduleDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Reschedule</p>
+            <h3>调整剩余任务时间段</h3>
+          </div>
+        </div>
+        <p class="dialog-note">给每个剩余任务安排新的日期和时间段，默认会放到今天同一时间。</p>
+        <div class="task-list" id="rescheduleList"></div>
+        <div class="dialog-actions">
+          <button class="save-button" id="saveCarryover" value="save" type="submit">保存调整</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="mood-dialog" id="moodDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Mood</p>
+            <h3>完成后的心情</h3>
+          </div>
+        </div>
+        <div class="mood-grid" id="moodGrid"></div>
+      </form>
+    </dialog>
+
+    <dialog class="wide-dialog weekly-dialog" id="weeklyDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Weekly Review</p>
+            <h3 id="weeklyTitle">周总结表</h3>
+          </div>
+          <button class="icon-button" value="close" type="submit" aria-label="关闭">×</button>
+        </div>
+        <p class="dialog-note" id="weeklyMessage"></p>
+        <div class="weekly-chart" id="weeklyChart"></div>
+        <div class="weekly-table-wrap">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th scope="col">任务</th>
+                <th scope="col">属性</th>
+                <th scope="col">时长</th>
+                <th scope="col">心情</th>
+              </tr>
+            </thead>
+            <tbody id="weeklyBody"></tbody>
+          </table>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="wide-dialog" id="updateDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Update</p>
+            <h3>应用更新</h3>
+          </div>
+          <button class="icon-button" value="close" type="submit" aria-label="关闭">×</button>
+        </div>
+        <p class="dialog-note" id="updateMessage"></p>
+        <div class="task-item">
+          <strong>网页版则直接点网页更新按钮，App 版则需下载新版本。</strong>
+          <small>如果你把新版 APK 放到一个固定下载地址，“下载新版”按钮就可以打开那个地址并下载；如果还没有下载地址，它会先提醒你需要配置。</small>
+        </div>
+        <div class="dialog-actions">
+          <button class="clear-button" value="download" id="downloadApk" type="submit">下载新版</button>
+          <button class="save-button" value="reload" id="reloadApp" type="submit">网页更新</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="cheer-stack" id="cheerStack" aria-live="polite" aria-atomic="false"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
