@@ -88,6 +88,8 @@ const weeklyBody = document.querySelector("#weeklyBody");
 const updateBtn = document.querySelector("#updateBtn");
 const updateDialog = document.querySelector("#updateDialog");
 const updateMessage = document.querySelector("#updateMessage");
+const undoBtn = document.querySelector("#undoBtn");
+const redoBtn = document.querySelector("#redoBtn");
 
 let plans = normalizePlans(JSON.parse(localStorage.getItem(storageKey) || "{}"));
 let weekStart = getMonday(new Date());
@@ -97,6 +99,9 @@ let activeSlot = "";
 let activeSlotIndex = 0;
 let pendingCarryovers = [];
 let pendingMoodKey = "";
+const historyLimit = 40;
+const undoStack = [];
+const redoStack = [];
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -165,6 +170,61 @@ function normalizePlans(savedPlans) {
 
 function savePlans() {
   localStorage.setItem(storageKey, JSON.stringify(plans));
+}
+
+function clonePlans(source = plans) {
+  return JSON.parse(JSON.stringify(source));
+}
+
+function plansChanged(before, after = plans) {
+  return JSON.stringify(before) !== JSON.stringify(after);
+}
+
+function updateHistoryButtons() {
+  undoBtn.disabled = undoStack.length === 0;
+  redoBtn.disabled = redoStack.length === 0;
+}
+
+function commitPlanChange(before) {
+  if (!plansChanged(before)) {
+    updateHistoryButtons();
+    return false;
+  }
+
+  undoStack.push(before);
+  if (undoStack.length > historyLimit) {
+    undoStack.shift();
+  }
+  redoStack.length = 0;
+  savePlans();
+  render();
+  updateHistoryButtons();
+  return true;
+}
+
+function restorePlans(snapshot, targetStack, message) {
+  targetStack.push(clonePlans(plans));
+  plans = normalizePlans(clonePlans(snapshot));
+  savePlans();
+  render();
+  updateHistoryButtons();
+  showCheer(message);
+}
+
+function undoLastChange() {
+  const snapshot = undoStack.pop();
+  if (!snapshot) {
+    return;
+  }
+  restorePlans(snapshot, redoStack, "已撤销上一步修改。");
+}
+
+function redoLastChange() {
+  const snapshot = redoStack.pop();
+  if (!snapshot) {
+    return;
+  }
+  restorePlans(snapshot, undoStack, "已恢复刚才撤销的修改。");
 }
 
 function makeKey(dateKey, slot) {
