@@ -42,6 +42,7 @@
                 <button class="menu-button" id="updateBtn" type="button" data-i18n="update">更新</button>
                 <button class="menu-button" id="feedbackBtn" type="button" data-i18n="feedback">反馈</button>
                 <button class="menu-button" id="backgroundBtn" type="button" data-i18n="background">背景</button>
+                <button class="menu-button" id="quoteBtn" type="button" data-i18n="quoteSettings">鼓励语</button>
                 <button class="menu-button" id="langToggle" type="button">EN</button>
               </div>
             </details>
@@ -292,6 +293,37 @@
         <div class="dialog-actions">
           <button class="clear-button" id="clearBackgroundImage" value="clear" type="button" data-i18n="clearBackgroundImage">清除图片</button>
           <button class="save-button" value="close" type="submit" data-i18n="saveBackground">完成</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="wide-dialog" id="quoteDialog">
+      <form method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Quote</p>
+            <h3 data-i18n="quoteTitle">每日鼓励设置</h3>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" aria-label="关闭" data-i18n-aria="close">×</button>
+        </div>
+        <p class="dialog-note" data-i18n="quoteNote">可以使用系统提供的鼓励语，也可以写一段自己的鼓励语显示在顶部。</p>
+        <div class="quote-mode">
+          <label>
+            <input type="radio" name="quoteMode" value="system" id="quoteSystem" />
+            <span data-i18n="systemQuote">系统提供</span>
+          </label>
+          <label>
+            <input type="radio" name="quoteMode" value="custom" id="quoteCustom" />
+            <span data-i18n="customQuote">自己写</span>
+          </label>
+        </div>
+        <label class="plan-field">
+          <span data-i18n="customQuoteText">自定义鼓励语</span>
+          <textarea id="customQuoteText" rows="4" maxlength="180" placeholder="写一句送给自己的鼓励" data-i18n-placeholder="customQuotePlaceholder"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="clear-button" value="cancel" type="submit" data-i18n="cancel">取消</button>
+          <button class="save-button" value="save" type="submit" data-i18n="saveQuote">保存</button>
         </div>
       </form>
     </dialog>

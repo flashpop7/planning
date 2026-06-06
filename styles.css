@@ -10,10 +10,10 @@
   --warm: #f4b942;
   --danger: #bf4b4b;
   --shadow: 0 18px 40px rgba(31, 43, 39, 0.08);
-  --panel-bg: rgba(255, 255, 255, 0.34);
-  --panel-bg-strong: rgba(255, 255, 255, 0.52);
-  --cell-bg: rgba(255, 255, 255, 0.28);
-  --cell-bg-strong: rgba(255, 255, 255, 0.44);
+  --panel-bg: rgba(255, 255, 255, 0.24);
+  --panel-bg-strong: rgba(255, 255, 255, 0.46);
+  --cell-bg: rgba(255, 255, 255, 0.18);
+  --cell-bg-strong: rgba(255, 255, 255, 0.36);
   --user-bg: #f6f7f4;
   --user-bg-image: none;
 }
@@ -39,8 +39,7 @@ body.has-photo-bg::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: rgba(246, 247, 244, 0.1);
-  backdrop-filter: blur(0.2px);
+  background: rgba(246, 247, 244, 0.04);
 }
 
 button,
@@ -73,8 +72,7 @@ button:disabled {
   margin-bottom: 12px;
   padding: 11px 16px;
   border: 1px solid rgba(40, 124, 102, 0.2);
-  background: rgba(255, 253, 247, 0.42);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 253, 247, 0.32);
   box-shadow: var(--shadow);
 }
 
@@ -99,7 +97,6 @@ button:disabled {
   background: var(--panel-bg);
   border: 1px solid rgba(223, 228, 225, 0.72);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
 }
 
 .planner-band {
@@ -209,8 +206,7 @@ h3 {
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(251, 252, 250, 0.4);
-  backdrop-filter: blur(8px);
+  background: rgba(251, 252, 250, 0.3);
 }
 
 .stat-card strong {
@@ -264,7 +260,6 @@ h3 {
   border-left: 6px solid var(--category-color, var(--accent));
   border-radius: 8px;
   background: var(--cell-bg-strong);
-  backdrop-filter: blur(8px);
 }
 
 .module-head {
@@ -336,6 +331,7 @@ h3 {
   border-radius: 8px;
   padding: 0 10px;
   color: var(--ink);
+  background: var(--panel-bg-strong);
 }
 
 .add-subtask-button {
@@ -449,7 +445,6 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
   box-shadow: 0 14px 30px rgba(31, 43, 39, 0.14);
 }
 
@@ -532,9 +527,8 @@ h3 {
 .corner-cell,
 .day-cell,
 .time-cell {
-  background: rgba(237, 244, 241, 0.5);
+  background: rgba(237, 244, 241, 0.38);
   font-weight: 700;
-  backdrop-filter: blur(8px);
 }
 
 .corner-cell,
@@ -593,21 +587,20 @@ h3 {
 .plan-button:hover,
 .plan-button:focus-visible {
   border-color: var(--accent);
-  background: rgba(247, 251, 249, 0.48);
+  background: rgba(247, 251, 249, 0.34);
   outline: none;
 }
 
 .plan-button.has-plan {
   border-style: solid;
   border-color: rgba(40, 124, 102, 0.28);
-  background: rgba(234, 246, 241, 0.46);
+  background: rgba(234, 246, 241, 0.34);
   color: var(--ink);
   border-left: 5px solid var(--category-color, var(--accent));
-  backdrop-filter: blur(6px);
 }
 
 .plan-button.is-done {
-  background: rgba(240, 241, 237, 0.4);
+  background: rgba(240, 241, 237, 0.3);
   color: #7b8078;
   text-decoration: line-through;
 }
@@ -656,8 +649,7 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.38);
   color: var(--muted);
   font-size: 12px;
   font-weight: 700;
@@ -761,8 +753,7 @@ h3 {
   border-radius: 8px;
   padding: 0;
   box-shadow: var(--shadow);
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px);
+  background: var(--panel-bg-strong);
 }
 
 .wide-dialog {
@@ -805,7 +796,7 @@ h3 {
   border-radius: 8px;
   padding: 12px;
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--panel-bg-strong);
 }
 
 .plan-field textarea {
@@ -853,13 +844,33 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--swatch-color);
-  color: var(--ink);
+  color: var(--swatch-text, var(--ink));
   font-weight: 900;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .theme-swatch.is-active {
   outline: 3px solid rgba(40, 124, 102, 0.28);
   border-color: var(--accent);
+}
+
+.quote-mode {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.quote-mode label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-bg-strong);
+  font-weight: 800;
 }
 
 .cheer-stack {
@@ -908,7 +919,6 @@ h3 {
   border-left: 6px solid var(--category-color, var(--accent));
   border-radius: 8px;
   background: var(--cell-bg-strong);
-  backdrop-filter: blur(8px);
 }
 
 .task-item strong {
@@ -1223,6 +1233,10 @@ h3 {
   }
 
   .time-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-mode {
     grid-template-columns: 1fr;
   }
 

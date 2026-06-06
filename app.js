@@ -10,19 +10,101 @@ const historyStorageKey = "simple-week-planner-history";
 const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const backgroundStorageKey = "simple-week-planner-background";
-const appVersion = "1.6.2";
+const quoteStorageKey = "simple-week-planner-quote";
+const appVersion = "1.7.0";
 const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
 const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
 const githubSearchUrl = "https://github.com/search?q=flashpop7+Weekly_Planner&type=repositories";
 const weeklySeenKey = "simple-week-planner-weekly-seen";
 const carryoverSeenKey = "simple-week-planner-carryover-seen";
-const backgroundThemes = [
-  { value: "#f6f7f4", labels: { zh: "清爽", en: "Fresh" } },
-  { value: "#f4f0e8", labels: { zh: "暖白", en: "Warm" } },
-  { value: "#eaf2f8", labels: { zh: "浅蓝", en: "Blue" } },
-  { value: "#f3edf7", labels: { zh: "淡紫", en: "Lilac" } },
-  { value: "#edf5ec", labels: { zh: "薄荷", en: "Mint" } },
+const themePresets = [
+  {
+    id: "fresh",
+    color: "#f6f7f4",
+    labels: { zh: "清爽", en: "Fresh" },
+    vars: {},
+  },
+  {
+    id: "warm",
+    color: "#f4f0e8",
+    labels: { zh: "暖白", en: "Warm" },
+    vars: { "--accent": "#9a6a2f", "--accent-dark": "#68451e", "--soft": "#efe5d4" },
+  },
+  {
+    id: "mint",
+    color: "#edf5ec",
+    labels: { zh: "薄荷", en: "Mint" },
+    vars: { "--accent": "#287c66", "--accent-dark": "#1e5e4e", "--soft": "#dfeee7" },
+  },
+  {
+    id: "graphite",
+    color: "#151a1d",
+    labels: { zh: "石墨黑", en: "Graphite" },
+    vars: {
+      "--ink": "#f2f5f4",
+      "--muted": "#b9c4c0",
+      "--line": "rgba(230, 238, 235, 0.28)",
+      "--soft": "rgba(255, 255, 255, 0.1)",
+      "--accent": "#79d2b6",
+      "--accent-dark": "#b9f1de",
+      "--panel-bg": "rgba(12, 16, 18, 0.34)",
+      "--panel-bg-strong": "rgba(20, 27, 30, 0.58)",
+      "--cell-bg": "rgba(12, 16, 18, 0.28)",
+      "--cell-bg-strong": "rgba(20, 27, 30, 0.48)",
+    },
+  },
+  {
+    id: "midnight",
+    color: "#111827",
+    labels: { zh: "午夜蓝", en: "Midnight" },
+    vars: {
+      "--ink": "#f4f7fb",
+      "--muted": "#bdc8d8",
+      "--line": "rgba(219, 229, 245, 0.28)",
+      "--soft": "rgba(255, 255, 255, 0.1)",
+      "--accent": "#8ab4ff",
+      "--accent-dark": "#c8dcff",
+      "--panel-bg": "rgba(10, 18, 32, 0.36)",
+      "--panel-bg-strong": "rgba(18, 30, 50, 0.58)",
+      "--cell-bg": "rgba(10, 18, 32, 0.28)",
+      "--cell-bg-strong": "rgba(18, 30, 50, 0.5)",
+    },
+  },
+  {
+    id: "plum",
+    color: "#251526",
+    labels: { zh: "深梅紫", en: "Plum" },
+    vars: {
+      "--ink": "#fff4fb",
+      "--muted": "#dac3d7",
+      "--line": "rgba(245, 220, 240, 0.28)",
+      "--soft": "rgba(255, 255, 255, 0.1)",
+      "--accent": "#f0a6d8",
+      "--accent-dark": "#ffd5ef",
+      "--panel-bg": "rgba(35, 16, 37, 0.36)",
+      "--panel-bg-strong": "rgba(50, 24, 54, 0.58)",
+      "--cell-bg": "rgba(35, 16, 37, 0.28)",
+      "--cell-bg-strong": "rgba(50, 24, 54, 0.5)",
+    },
+  },
+  {
+    id: "forest",
+    color: "#102018",
+    labels: { zh: "深林绿", en: "Forest" },
+    vars: {
+      "--ink": "#f2fbf4",
+      "--muted": "#bbd1c2",
+      "--line": "rgba(221, 241, 226, 0.28)",
+      "--soft": "rgba(255, 255, 255, 0.1)",
+      "--accent": "#8ddaa6",
+      "--accent-dark": "#c8f4d5",
+      "--panel-bg": "rgba(9, 27, 18, 0.36)",
+      "--panel-bg-strong": "rgba(17, 42, 29, 0.58)",
+      "--cell-bg": "rgba(9, 27, 18, 0.28)",
+      "--cell-bg-strong": "rgba(17, 42, 29, 0.5)",
+    },
+  },
 ];
 const translations = {
   zh: {
@@ -35,6 +117,7 @@ const translations = {
     update: "更新",
     feedback: "反馈",
     background: "背景",
+    quoteSettings: "鼓励语",
     undo: "撤销",
     redo: "恢复",
     langToggle: "EN",
@@ -105,13 +188,21 @@ const translations = {
     progressDetail: "{done}/{total} 个任务完成",
     subtaskProgressDetail: "{done}/{total} 个小任务完成",
     noSubtasks: "未拆分小任务",
-    backgroundTitle: "背景设置",
-    backgroundNote: "可以选择纯色背景，也可以从本机相册选择图片。图片只保存在当前浏览器里，不会上传。",
+    backgroundTitle: "主题与背景",
+    backgroundNote: "可以选择浅色或深色主题，也可以从本机相册选择图片。图片只保存在当前浏览器里，不会上传。",
     photoBackground: "相册图片背景",
     clearBackgroundImage: "清除图片",
     saveBackground: "完成",
     backgroundSaved: "背景已更新。",
     imageTooLarge: "图片太大了，建议选择 2MB 以内的图片。",
+    quoteTitle: "每日鼓励设置",
+    quoteNote: "可以使用系统提供的鼓励语，也可以写一段自己的鼓励语显示在顶部。",
+    systemQuote: "系统提供",
+    customQuote: "自己写",
+    customQuoteText: "自定义鼓励语",
+    customQuotePlaceholder: "写一句送给自己的鼓励",
+    saveQuote: "保存鼓励语",
+    quoteSaved: "每日鼓励已更新。",
     timeHeader: "时间",
     addPlan: "添加计划",
     markDone: "标记完成",
@@ -155,6 +246,7 @@ const translations = {
     update: "Update",
     feedback: "Feedback",
     background: "Background",
+    quoteSettings: "Quote",
     undo: "Undo",
     redo: "Redo",
     langToggle: "中文",
@@ -225,13 +317,21 @@ const translations = {
     progressDetail: "{done}/{total} task(s) done",
     subtaskProgressDetail: "{done}/{total} subtask(s) done",
     noSubtasks: "No subtasks",
-    backgroundTitle: "Background",
-    backgroundNote: "Choose a color background or select a photo from this device. The image stays in this browser and is not uploaded.",
+    backgroundTitle: "Theme & Background",
+    backgroundNote: "Choose a light or dark theme, or select a photo from this device. The image stays in this browser and is not uploaded.",
     photoBackground: "Photo background",
     clearBackgroundImage: "Clear Photo",
     saveBackground: "Done",
     backgroundSaved: "Background updated.",
     imageTooLarge: "That image is too large. Try an image under 2MB.",
+    quoteTitle: "Daily Quote Settings",
+    quoteNote: "Use a system quote, or write your own encouragement for the top of the page.",
+    systemQuote: "System",
+    customQuote: "Custom",
+    customQuoteText: "Custom quote",
+    customQuotePlaceholder: "Write a line of encouragement for yourself",
+    saveQuote: "Save Quote",
+    quoteSaved: "Daily quote updated.",
     timeHeader: "Time",
     addPlan: "Add plan",
     markDone: "Mark as done",
@@ -396,6 +496,11 @@ const backgroundDialog = document.querySelector("#backgroundDialog");
 const themeSwatches = document.querySelector("#themeSwatches");
 const backgroundImageInput = document.querySelector("#backgroundImageInput");
 const clearBackgroundImage = document.querySelector("#clearBackgroundImage");
+const quoteBtn = document.querySelector("#quoteBtn");
+const quoteDialog = document.querySelector("#quoteDialog");
+const quoteSystem = document.querySelector("#quoteSystem");
+const quoteCustom = document.querySelector("#quoteCustom");
+const customQuoteText = document.querySelector("#customQuoteText");
 const langToggle = document.querySelector("#langToggle");
 const toolMenu = document.querySelector(".tool-menu");
 
@@ -405,6 +510,7 @@ let weekStart = getMonday(selectedDate);
 let viewMode = localStorage.getItem(viewModeStorageKey) === "week" ? "week" : "day";
 let currentLang = localStorage.getItem(languageStorageKey) === "en" ? "en" : "zh";
 let backgroundSettings = loadBackgroundSettings();
+let quoteSettings = loadQuoteSettings();
 let activeKey = "";
 let activeDateKey = "";
 let activeSlot = "";
@@ -648,12 +754,14 @@ function collectSubtasksFromEditor() {
 function loadBackgroundSettings() {
   try {
     const saved = JSON.parse(localStorage.getItem(backgroundStorageKey) || "{}");
+    const fallbackTheme = themePresets.find((theme) => theme.color === saved.color) || themePresets[0];
     return {
-      color: saved.color || backgroundThemes[0].value,
+      theme: saved.theme || fallbackTheme.id,
+      color: saved.color || fallbackTheme.color,
       image: saved.image || "",
     };
   } catch (error) {
-    return { color: backgroundThemes[0].value, image: "" };
+    return { theme: themePresets[0].id, color: themePresets[0].color, image: "" };
   }
 }
 
@@ -661,8 +769,41 @@ function saveBackgroundSettings() {
   localStorage.setItem(backgroundStorageKey, JSON.stringify(backgroundSettings));
 }
 
+function loadQuoteSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(quoteStorageKey) || "{}");
+    return {
+      mode: saved.mode === "custom" ? "custom" : "system",
+      customText: String(saved.customText || ""),
+    };
+  } catch (error) {
+    return { mode: "system", customText: "" };
+  }
+}
+
+function saveQuoteSettings() {
+  localStorage.setItem(quoteStorageKey, JSON.stringify(quoteSettings));
+}
+
 function applyBackgroundSettings() {
-  document.documentElement.style.setProperty("--user-bg", backgroundSettings.color || backgroundThemes[0].value);
+  const root = document.documentElement;
+  const selectedTheme = themePresets.find((theme) => theme.id === backgroundSettings.theme) || themePresets[0];
+  const defaultVars = {
+    "--ink": "#202327",
+    "--muted": "#6d7380",
+    "--line": "#dfe4e1",
+    "--soft": "#edf4f1",
+    "--accent": "#287c66",
+    "--accent-dark": "#1e5e4e",
+    "--panel-bg": "rgba(255, 255, 255, 0.24)",
+    "--panel-bg-strong": "rgba(255, 255, 255, 0.46)",
+    "--cell-bg": "rgba(255, 255, 255, 0.18)",
+    "--cell-bg-strong": "rgba(255, 255, 255, 0.36)",
+  };
+
+  Object.entries(defaultVars).forEach(([name, value]) => root.style.setProperty(name, value));
+  Object.entries(selectedTheme.vars || {}).forEach(([name, value]) => root.style.setProperty(name, value));
+  root.style.setProperty("--user-bg", backgroundSettings.color || selectedTheme.color);
   document.documentElement.style.setProperty(
     "--user-bg-image",
     backgroundSettings.image ? `url("${backgroundSettings.image}")` : "none",
@@ -672,14 +813,16 @@ function applyBackgroundSettings() {
 
 function renderBackgroundControls() {
   themeSwatches.innerHTML = "";
-  backgroundThemes.forEach((theme) => {
+  themePresets.forEach((theme) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `theme-swatch${theme.value === backgroundSettings.color ? " is-active" : ""}`;
-    button.style.setProperty("--swatch-color", theme.value);
+    button.className = `theme-swatch${theme.id === backgroundSettings.theme ? " is-active" : ""}`;
+    button.style.setProperty("--swatch-color", theme.color);
+    button.style.setProperty("--swatch-text", theme.vars?.["--ink"] || "#202327");
     button.textContent = theme.labels[currentLang] || theme.labels.zh;
     button.addEventListener("click", () => {
-      backgroundSettings.color = theme.value;
+      backgroundSettings.theme = theme.id;
+      backgroundSettings.color = theme.color;
       saveBackgroundSettings();
       applyBackgroundSettings();
       renderBackgroundControls();
@@ -687,6 +830,18 @@ function renderBackgroundControls() {
     });
     themeSwatches.appendChild(button);
   });
+}
+
+function openQuoteDialog() {
+  closeToolMenu();
+  quoteSystem.checked = quoteSettings.mode !== "custom";
+  quoteCustom.checked = quoteSettings.mode === "custom";
+  customQuoteText.value = quoteSettings.customText || "";
+  quoteDialog.returnValue = "";
+  quoteDialog.showModal();
+  if (quoteCustom.checked) {
+    customQuoteText.focus();
+  }
 }
 
 function openBackgroundDialog() {
@@ -917,6 +1072,11 @@ function render() {
 }
 
 function renderDailyQuote() {
+  if (quoteSettings.mode === "custom" && quoteSettings.customText.trim()) {
+    dailyQuote.textContent = quoteSettings.customText.trim();
+    return;
+  }
+
   const today = new Date();
   const dateNumber = Number(`${today.getFullYear()}${pad(today.getMonth() + 1)}${pad(today.getDate())}`);
   const quotes = dailyQuotes[currentLang] || dailyQuotes.zh;
@@ -1638,6 +1798,24 @@ feedbackChoiceDialog.addEventListener("close", () => {
 
 backgroundBtn.addEventListener("click", () => {
   openBackgroundDialog();
+});
+
+quoteBtn.addEventListener("click", () => {
+  openQuoteDialog();
+});
+
+quoteDialog.addEventListener("close", () => {
+  if (quoteDialog.returnValue !== "save") {
+    return;
+  }
+
+  quoteSettings = {
+    mode: quoteCustom.checked ? "custom" : "system",
+    customText: customQuoteText.value.trim(),
+  };
+  saveQuoteSettings();
+  renderDailyQuote();
+  showCheer(t("quoteSaved"));
 });
 
 addSubtask.addEventListener("click", () => {

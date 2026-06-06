@@ -1,5 +1,5 @@
 {
-  "version": "1.6.2",
+  "version": "1.7.0",
   "apkUrl": "",
-  "notes": "Allows minute-level time selection and makes planner surfaces more transparent."
+  "notes": "Adds theme presets with additional dark backgrounds and matching interface colors."
 }
