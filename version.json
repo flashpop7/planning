@@ -1,5 +1,5 @@
 {
-  "version": "1.6.1",
+  "version": "1.6.2",
   "apkUrl": "",
-  "notes": "Removes the date column from Summary and tightens the summary layout."
+  "notes": "Allows minute-level time selection and makes planner surfaces more transparent."
 }

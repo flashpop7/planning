@@ -10,7 +10,7 @@ const historyStorageKey = "simple-week-planner-history";
 const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const backgroundStorageKey = "simple-week-planner-background";
-const appVersion = "1.6.1";
+const appVersion = "1.6.2";
 const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
 const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
@@ -1412,10 +1412,10 @@ function renderRescheduleDialog() {
           <input class="carry-date" type="date" value="${today}" min="${today}">
         </label>
         <label>${t("startTime")}
-          <input class="carry-start" type="time" step="300" value="${escapeHtml(entry.startTime || parseTimeRange(entry.slot).start)}">
+          <input class="carry-start" type="time" step="60" value="${escapeHtml(entry.startTime || parseTimeRange(entry.slot).start)}">
         </label>
         <label>${t("endTime")}
-          <input class="carry-end" type="time" step="300" value="${escapeHtml(entry.endTime || parseTimeRange(entry.slot).end)}">
+          <input class="carry-end" type="time" step="60" value="${escapeHtml(entry.endTime || parseTimeRange(entry.slot).end)}">
         </label>
       </div>
     `;
