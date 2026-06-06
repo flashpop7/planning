@@ -21,6 +21,12 @@ Weekly_Planner helps you arrange tasks by date and time block, switch between da
 
 Open `index.html` directly, or deploy the files to GitHub Pages.
 
+GitHub Pages URL:
+
+```text
+https://flashpop7.github.io/Weekly_Planner/
+```
+
 Main files:
 
 ```text
@@ -32,22 +38,18 @@ version.json
 
 ## Feedback
 
-The feedback button currently opens this WPS form:
+Feedback is collected through GitHub Issues.
 
-```text
-https://f.wps.cn/g/P1wfV2Yd/
-```
+Users can search GitHub for `flashpop7` and `Weekly_Planner`, or open the Issues page from the app's feedback menu.
 
-Responses are managed in the WPS/Kingsoft form backend, so the creator can review suggestions and bug reports without publishing a personal email address.
+Make sure GitHub Issues is enabled in the repository settings.
 
-Overseas users can submit feedback only if they can access the WPS form link normally. If you expect many international users, keep a backup form option ready.
+Issue templates are included for:
 
-To change feedback collection, edit these values in `app.js`:
+- Bug reports
+- Feature requests
 
-- `feedbackFormUrl`: opens an external form
-- `feedbackSubmitUrl`: submits the built-in feedback dialog to an API endpoint
-
-Do not put private keys, tokens, or passwords in frontend code.
+GitHub Issues are public, so users should not include private information.
 
 ## Privacy
 

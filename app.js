@@ -10,17 +10,20 @@ const historyStorageKey = "simple-week-planner-history";
 const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const appVersion = "1.4.0";
-const webAppUrl = "https://flashpop7.github.io/planning/";
+const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
-const feedbackFormUrl = "https://f.wps.cn/g/P1wfV2Yd/";
-const feedbackSubmitUrl = "";
+const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
+const githubSearchUrl = "https://github.com/search?q=flashpop7+Weekly_Planner&type=repositories";
 const weeklySeenKey = "simple-week-planner-weekly-seen";
 const carryoverSeenKey = "simple-week-planner-carryover-seen";
 const translations = {
   zh: {
-    appTitle: "计划安排表",
+    appTitle: "Weekly_Planner",
     dailyEncouragement: "每日鼓励",
-    navigationTools: "周切换",
+    navigationTools: "顶部工具",
+    dateNavigation: "日期切换",
+    editTools: "编辑操作",
+    tools: "功能",
     update: "更新",
     feedback: "反馈",
     undo: "撤销",
@@ -31,6 +34,8 @@ const translations = {
     prevDay: "前一天",
     nextDay: "后一天",
     today: "今天",
+    futureDayLabel: "第{count}天",
+    previousDayLabel: "前{count}天",
     thisWeek: "这周",
     backToday: "回到今天",
     backThisWeek: "回到这周",
@@ -41,7 +46,7 @@ const translations = {
     weekView: "一周",
     dayViewLabel: "一天视图",
     schedule: "课程表式计划安排",
-    summaryTitle: "计划总结表",
+    summaryTitle: "Summary",
     clearWeek: "清空本周计划",
     clearDone: "清除已完成",
     done: "完成",
@@ -73,17 +78,10 @@ const translations = {
     webUpdate: "网页更新",
     cancel: "取消",
     confirmClear: "确认清空",
-    feedbackTitle: "建议反馈",
-    feedbackType: "反馈类型",
-    feedbackFeature: "功能建议",
-    feedbackBug: "网站问题",
-    feedbackExperience: "使用体验",
-    feedbackOther: "其他",
-    feedbackContent: "反馈内容",
-    feedbackPlaceholder: "写下你遇到的问题，或者希望增加的功能",
-    contactOptional: "联系方式（可选）",
-    contactPlaceholder: "微信、邮箱或其他联系方式",
-    submitFeedback: "提交反馈",
+    feedbackChoiceTitle: "GitHub Issues 反馈",
+    feedbackChoiceNote: "请在 GitHub 搜索 flashpop7 和 Weekly_Planner，或直接打开项目 Issues 提交建议和 bug。Issues 是公开的，请不要填写隐私信息。",
+    searchGithubRepo: "搜索项目",
+    openGithubIssues: "打开 Issues",
     timeHeader: "时间",
     addPlan: "添加计划",
     markDone: "标记完成",
@@ -99,10 +97,6 @@ const translations = {
     futureWeekLabel: "第{count}周",
     undoDone: "已撤销上一步修改。",
     redoDone: "已恢复刚才撤销的修改。",
-    feedbackEmpty: "先写一点反馈内容，再提交。",
-    feedbackNoEndpoint: "反馈收集地址还没配置，暂时无法提交。",
-    feedbackSuccess: "反馈已提交，谢谢你帮我把这个计划表变好。",
-    feedbackFail: "反馈暂时提交失败，请稍后再试。",
     clearWeekDone: "已清空当前显示周的计划，可以用撤销找回。",
     clearWeekEmpty: "当前显示周没有可清空的计划。",
     clearDoneDone: "已清除当前视图里的完成项，可以用撤销找回来。",
@@ -122,9 +116,12 @@ const translations = {
     weeklyNormal: "这周安排了 {total} 个任务，完成 {done} 个，总计 {hours} 小时。做得不必完美，但你确实在照看自己的时间。",
   },
   en: {
-    appTitle: "Planner",
+    appTitle: "Weekly_Planner",
     dailyEncouragement: "Daily encouragement",
-    navigationTools: "Navigation tools",
+    navigationTools: "Header tools",
+    dateNavigation: "Date navigation",
+    editTools: "Edit actions",
+    tools: "Tools",
     update: "Update",
     feedback: "Feedback",
     undo: "Undo",
@@ -135,6 +132,8 @@ const translations = {
     prevDay: "Previous day",
     nextDay: "Next day",
     today: "Today",
+    futureDayLabel: "Day {count}",
+    previousDayLabel: "{count} day(s) ago",
     thisWeek: "This week",
     backToday: "Back to today",
     backThisWeek: "Back to this week",
@@ -145,7 +144,7 @@ const translations = {
     weekView: "Week",
     dayViewLabel: "Day view",
     schedule: "Timetable planner",
-    summaryTitle: "Plan Summary",
+    summaryTitle: "Summary",
     clearWeek: "Clear This Week",
     clearDone: "Clear Done",
     done: "Done",
@@ -177,17 +176,10 @@ const translations = {
     webUpdate: "Refresh Web",
     cancel: "Cancel",
     confirmClear: "Confirm Clear",
-    feedbackTitle: "Feedback",
-    feedbackType: "Feedback type",
-    feedbackFeature: "Feature request",
-    feedbackBug: "Website bug",
-    feedbackExperience: "Experience",
-    feedbackOther: "Other",
-    feedbackContent: "Feedback",
-    feedbackPlaceholder: "Describe the issue you met, or a feature you want",
-    contactOptional: "Contact (optional)",
-    contactPlaceholder: "WeChat, email, or another contact method",
-    submitFeedback: "Submit",
+    feedbackChoiceTitle: "GitHub Issues Feedback",
+    feedbackChoiceNote: "Search GitHub for flashpop7 and Weekly_Planner, or open the project Issues page to report bugs and suggestions. Issues are public, so do not include private information.",
+    searchGithubRepo: "Search Project",
+    openGithubIssues: "Open Issues",
     timeHeader: "Time",
     addPlan: "Add plan",
     markDone: "Mark as done",
@@ -203,10 +195,6 @@ const translations = {
     futureWeekLabel: "Week {count}",
     undoDone: "Undid the previous change.",
     redoDone: "Restored the change you just undid.",
-    feedbackEmpty: "Please write some feedback before submitting.",
-    feedbackNoEndpoint: "Feedback collection is not configured yet.",
-    feedbackSuccess: "Feedback submitted. Thanks for helping improve this planner.",
-    feedbackFail: "Feedback failed to submit. Please try again later.",
     clearWeekDone: "Cleared plans in the current week. You can undo this.",
     clearWeekEmpty: "There are no plans to clear in the current week.",
     clearDoneDone: "Cleared completed items in the current view. You can undo this.",
@@ -344,12 +332,9 @@ const clearWeekMessage = document.querySelector("#clearWeekMessage");
 const dayViewBtn = document.querySelector("#dayViewBtn");
 const weekViewBtn = document.querySelector("#weekViewBtn");
 const feedbackBtn = document.querySelector("#feedbackBtn");
-const feedbackDialog = document.querySelector("#feedbackDialog");
-const feedbackType = document.querySelector("#feedbackType");
-const feedbackText = document.querySelector("#feedbackText");
-const feedbackContact = document.querySelector("#feedbackContact");
-const sendFeedback = document.querySelector("#sendFeedback");
+const feedbackChoiceDialog = document.querySelector("#feedbackChoiceDialog");
 const langToggle = document.querySelector("#langToggle");
+const toolMenu = document.querySelector(".tool-menu");
 
 let plans = normalizePlans(JSON.parse(localStorage.getItem(storageKey) || "{}"));
 let selectedDate = new Date();
@@ -578,59 +563,6 @@ function redoLastChange() {
   restorePlans(snapshot, undoStack, t("redoDone"));
 }
 
-function getFeedbackPayload() {
-  return {
-    type: feedbackType.value,
-    message: feedbackText.value.trim(),
-    contact: feedbackContact.value.trim(),
-    page: window.location.href,
-    appVersion,
-    viewMode,
-    date: toDateKey(selectedDate),
-    userAgent: navigator.userAgent,
-    createdAt: new Date().toISOString(),
-  };
-}
-
-async function submitFeedback() {
-  const payload = getFeedbackPayload();
-  if (!payload.message) {
-    showCheer(t("feedbackEmpty"));
-    return false;
-  }
-
-  if (!feedbackSubmitUrl) {
-    showCheer(t("feedbackNoEndpoint"));
-    return false;
-  }
-
-  sendFeedback.disabled = true;
-  try {
-    const response = await fetch(feedbackSubmitUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error("Feedback request failed");
-    }
-
-    feedbackText.value = "";
-    feedbackContact.value = "";
-    showCheer(t("feedbackSuccess"));
-    return true;
-  } catch (error) {
-    showCheer(t("feedbackFail"));
-    return false;
-  } finally {
-    sendFeedback.disabled = false;
-  }
-}
-
 function clearVisibleWeekPlans() {
   const weekKeys = new Set(getVisibleWeekKeys());
   const before = clonePlans();
@@ -733,7 +665,7 @@ function renderHeader() {
   const last = dates[dates.length - 1];
   monthLabel.textContent = viewMode === "day" ? formatDate(first) : formatMonth(first);
   weekRange.textContent = viewMode === "day" ? `${getWeekday(first)} · ${t("dayViewLabel")}` : `${formatDate(first)} - ${formatDate(last)}`;
-  todayBtn.textContent = viewMode === "day" ? t("today") : getRelativeWeekLabel();
+  todayBtn.textContent = viewMode === "day" ? getRelativeDayLabel() : getRelativeWeekLabel();
   todayBtn.title = viewMode === "day" ? t("backToday") : t("backThisWeek");
   todayBtn.setAttribute("aria-label", viewMode === "day" ? t("todayAria") : t("currentWeekAria", { label: todayBtn.textContent }));
   document.querySelector("#prevWeek").title = viewMode === "day" ? t("prevDay") : t("prevWeek");
@@ -764,6 +696,22 @@ function getRelativeWeekLabel() {
   }
 
   return t("previousWeekLabel", { count: Math.abs(diffWeeks) });
+}
+
+function getRelativeDayLabel() {
+  const currentDay = fromDateKey(todayKey());
+  const selectedDay = fromDateKey(toDateKey(selectedDate));
+  const diffDays = Math.round((selectedDay - currentDay) / 86400000);
+
+  if (diffDays === 0) {
+    return t("today");
+  }
+
+  if (diffDays > 0) {
+    return t("futureDayLabel", { count: diffDays + 1 });
+  }
+
+  return t("previousDayLabel", { count: Math.abs(diffDays) });
 }
 
 function renderGrid() {
@@ -1222,27 +1170,39 @@ function setLanguage(nextLang) {
   render();
 }
 
+function closeToolMenu() {
+  toolMenu.open = false;
+}
+
+function openFeedbackUrl(url) {
+  window.open(url, "_blank", "noopener");
+}
+
+function openFeedbackEntry() {
+  feedbackChoiceDialog.returnValue = "";
+  feedbackChoiceDialog.showModal();
+}
+
 dayViewBtn.addEventListener("click", () => setViewMode("day"));
 weekViewBtn.addEventListener("click", () => setViewMode("week"));
 
 langToggle.addEventListener("click", () => {
   setLanguage(currentLang === "zh" ? "en" : "zh");
+  closeToolMenu();
 });
 
 feedbackBtn.addEventListener("click", () => {
-  if (feedbackFormUrl) {
-    window.open(feedbackFormUrl, "_blank", "noopener");
-    return;
-  }
-
-  feedbackDialog.returnValue = "";
-  feedbackDialog.showModal();
-  feedbackText.focus();
+  closeToolMenu();
+  openFeedbackEntry();
 });
 
-feedbackDialog.addEventListener("close", async () => {
-  if (feedbackDialog.returnValue === "send") {
-    await submitFeedback();
+feedbackChoiceDialog.addEventListener("close", () => {
+  if (feedbackChoiceDialog.returnValue === "issues") {
+    openFeedbackUrl(githubIssuesUrl);
+  }
+
+  if (feedbackChoiceDialog.returnValue === "search") {
+    openFeedbackUrl(githubSearchUrl);
   }
 });
 
@@ -1351,6 +1311,7 @@ undoBtn.addEventListener("click", undoLastChange);
 redoBtn.addEventListener("click", redoLastChange);
 
 updateBtn.addEventListener("click", () => {
+  closeToolMenu();
   updateMessage.textContent = t("updateMessage", { version: appVersion });
   updateDialog.showModal();
 });
@@ -1384,7 +1345,7 @@ async function checkWebVersionAndUpdate() {
       return;
     }
 
-    sessionStorage.setItem("planning-update-message", t("updateSuccess", { version: latestVersion }));
+    sessionStorage.setItem("weekly-planner-update-message", t("updateSuccess", { version: latestVersion }));
 
     if (window.location.href.startsWith(webAppUrl)) {
       window.location.reload();
@@ -1443,10 +1404,10 @@ window.setTimeout(() => {
 
 function showPendingUpdateMessage() {
   const url = new URL(window.location.href);
-  const message = sessionStorage.getItem("planning-update-message");
+  const message = sessionStorage.getItem("weekly-planner-update-message");
 
   if (message) {
-    sessionStorage.removeItem("planning-update-message");
+    sessionStorage.removeItem("weekly-planner-update-message");
     showCheer(message);
   }
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>计划安排表</title>
+    <title>Weekly_Planner</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -15,23 +15,35 @@
 
       <section class="planner-band">
         <div class="planner-head">
-          <div>
-            <p class="eyebrow">Weekly Planner</p>
-            <h1 data-i18n="appTitle">计划安排表</h1>
+          <div class="brand-title">
+            <h1 data-i18n="appTitle">Weekly_Planner</h1>
           </div>
           <div class="week-tools" aria-label="周切换" data-i18n-aria="navigationTools">
-            <button class="clear-button" id="updateBtn" type="button" data-i18n="update">更新</button>
-            <button class="clear-button" id="feedbackBtn" type="button" data-i18n="feedback">反馈</button>
-            <button class="clear-button" id="langToggle" type="button">EN</button>
-            <button class="clear-button" id="undoBtn" type="button" disabled data-i18n="undo">撤销</button>
-            <button class="clear-button" id="redoBtn" type="button" disabled data-i18n="redo">恢复</button>
-            <button class="icon-button" id="prevWeek" type="button" title="上一周" aria-label="上一周" data-i18n-title="prevWeek" data-i18n-aria="prevWeek">
-              <span aria-hidden="true">‹</span>
-            </button>
-            <button class="today-button" id="todayBtn" type="button">今天</button>
-            <button class="icon-button" id="nextWeek" type="button" title="下一周" aria-label="下一周" data-i18n-title="nextWeek" data-i18n-aria="nextWeek">
-              <span aria-hidden="true">›</span>
-            </button>
+            <div class="nav-control" aria-label="日期切换" data-i18n-aria="dateNavigation">
+              <button class="icon-button" id="prevWeek" type="button" title="上一周" aria-label="上一周" data-i18n-title="prevWeek" data-i18n-aria="prevWeek">
+                <span aria-hidden="true">‹</span>
+              </button>
+              <button class="today-button" id="todayBtn" type="button">今天</button>
+              <button class="icon-button" id="nextWeek" type="button" title="下一周" aria-label="下一周" data-i18n-title="nextWeek" data-i18n-aria="nextWeek">
+                <span aria-hidden="true">›</span>
+              </button>
+            </div>
+            <div class="edit-tools" aria-label="编辑操作" data-i18n-aria="editTools">
+              <button class="icon-button compact-icon" id="undoBtn" type="button" disabled title="撤销" aria-label="撤销" data-i18n-title="undo" data-i18n-aria="undo">
+                <span aria-hidden="true">↶</span>
+              </button>
+              <button class="icon-button compact-icon" id="redoBtn" type="button" disabled title="恢复" aria-label="恢复" data-i18n-title="redo" data-i18n-aria="redo">
+                <span aria-hidden="true">↷</span>
+              </button>
+            </div>
+            <details class="tool-menu">
+              <summary class="clear-button" data-i18n="tools">功能</summary>
+              <div class="tool-menu-panel">
+                <button class="menu-button" id="updateBtn" type="button" data-i18n="update">更新</button>
+                <button class="menu-button" id="feedbackBtn" type="button" data-i18n="feedback">反馈</button>
+                <button class="menu-button" id="langToggle" type="button">EN</button>
+              </div>
+            </details>
           </div>
         </div>
 
@@ -53,8 +65,7 @@
       <section class="summary-band">
         <div class="summary-head">
           <div>
-            <p class="eyebrow">Summary</p>
-            <h2 data-i18n="summaryTitle">计划总结表</h2>
+            <h2 data-i18n="summaryTitle">Summary</h2>
           </div>
           <div class="summary-actions">
             <button class="clear-button" id="clearWeek" type="button" data-i18n="clearWeek">清空本周计划</button>
@@ -222,39 +233,19 @@
       </form>
     </dialog>
 
-    <dialog class="wide-dialog" id="feedbackDialog">
+    <dialog class="wide-dialog" id="feedbackChoiceDialog">
       <form method="dialog">
         <div class="dialog-head">
           <div>
             <p class="eyebrow">Feedback</p>
-            <h3 data-i18n="feedbackTitle">建议反馈</h3>
+            <h3 data-i18n="feedbackChoiceTitle">GitHub Issues 反馈</h3>
           </div>
           <button class="icon-button" value="cancel" type="submit" aria-label="关闭" data-i18n-aria="close">×</button>
         </div>
-
-        <label class="plan-field">
-          <span data-i18n="feedbackType">反馈类型</span>
-          <select id="feedbackType">
-            <option value="feature" data-i18n="feedbackFeature">功能建议</option>
-            <option value="bug" data-i18n="feedbackBug">网站问题</option>
-            <option value="experience" data-i18n="feedbackExperience">使用体验</option>
-            <option value="other" data-i18n="feedbackOther">其他</option>
-          </select>
-        </label>
-
-        <label class="plan-field">
-          <span data-i18n="feedbackContent">反馈内容</span>
-          <textarea id="feedbackText" rows="5" maxlength="1200" placeholder="写下你遇到的问题，或者希望增加的功能" data-i18n-placeholder="feedbackPlaceholder"></textarea>
-        </label>
-
-        <label class="plan-field">
-          <span data-i18n="contactOptional">联系方式（可选）</span>
-          <input id="feedbackContact" type="text" maxlength="120" placeholder="微信、邮箱或其他联系方式" data-i18n-placeholder="contactPlaceholder" />
-        </label>
-
-        <div class="dialog-actions">
-          <button class="clear-button" value="cancel" type="submit" data-i18n="cancel">取消</button>
-          <button class="save-button" id="sendFeedback" value="send" type="submit" data-i18n="submitFeedback">提交反馈</button>
+        <p class="dialog-note" data-i18n="feedbackChoiceNote">请在 GitHub 搜索 flashpop7 和 Weekly_Planner，或直接打开项目 Issues 提交建议和 bug。</p>
+        <div class="feedback-choice-actions">
+          <button class="clear-button" id="searchGithubRepo" value="search" type="submit" data-i18n="searchGithubRepo">搜索项目</button>
+          <button class="save-button" id="openGithubIssues" value="issues" type="submit" data-i18n="openGithubIssues">打开 Issues</button>
         </div>
       </form>
     </dialog>

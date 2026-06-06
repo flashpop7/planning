@@ -126,12 +126,40 @@ h3 {
   font-size: 20px;
 }
 
+.brand-title h1 {
+  white-space: nowrap;
+}
+
 .week-tools {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
+}
+
+.nav-control,
+.edit-tools {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.nav-control .icon-button,
+.nav-control .today-button,
+.edit-tools .icon-button {
+  border: 0;
+  border-radius: 0;
+}
+
+.nav-control .icon-button + .today-button,
+.nav-control .today-button + .icon-button,
+.edit-tools .icon-button + .icon-button {
+  border-left: 1px solid var(--line);
 }
 
 .summary-actions {
@@ -185,6 +213,11 @@ h3 {
   line-height: 1;
 }
 
+.compact-icon {
+  width: 36px;
+  font-size: 21px;
+}
+
 .today-button,
 .clear-button,
 .save-button,
@@ -202,6 +235,70 @@ h3 {
 
 .clear-button {
   color: var(--accent-dark);
+}
+
+.tool-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.tool-menu summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  list-style: none;
+  user-select: none;
+}
+
+.tool-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.tool-menu summary::after {
+  content: "⌄";
+  margin-left: 7px;
+  font-size: 12px;
+}
+
+.tool-menu[open] summary {
+  border-color: rgba(40, 124, 102, 0.38);
+  background: #f7fbf9;
+}
+
+.tool-menu-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 10;
+  display: grid;
+  min-width: 132px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 0 14px 30px rgba(31, 43, 39, 0.14);
+}
+
+.menu-button {
+  min-height: 38px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--accent-dark);
+  padding: 0 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.menu-button:last-child {
+  border-bottom: 0;
+}
+
+.menu-button:hover,
+.menu-button:focus-visible {
+  background: var(--soft);
+  outline: none;
 }
 
 .delete-button {
@@ -706,17 +803,36 @@ h3 {
 
   .week-tools {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-content: space-between;
+    gap: 6px;
   }
 
-  .icon-button {
-    width: 100%;
-  }
-
-  .today-button {
-    grid-column: 2;
+  .nav-control {
+    flex: 1 1 auto;
     min-width: 0;
+  }
+
+  .nav-control .today-button {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .edit-tools {
+    flex: 0 0 auto;
+  }
+
+  .tool-menu {
+    flex: 0 0 auto;
+  }
+
+  .tool-menu summary {
+    padding: 0 10px;
+  }
+
+  .tool-menu-panel {
+    right: 0;
   }
 
   .summary-actions {
