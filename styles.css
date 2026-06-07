@@ -14,6 +14,11 @@
   --panel-bg-strong: rgba(255, 255, 255, 0.46);
   --cell-bg: rgba(255, 255, 255, 0.18);
   --cell-bg-strong: rgba(255, 255, 255, 0.36);
+  --solid-panel: #ffffff;
+  --solid-field: #f7fbf9;
+  --solid-hover: #edf4f1;
+  --solid-ink: #202327;
+  --solid-muted: #4f5964;
   --user-bg: #f6f7f4;
   --user-bg-image: none;
 }
@@ -32,6 +37,15 @@ body {
   background-position: center;
   color: var(--ink);
   font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+}
+
+.daily-quote,
+.planner-band,
+.progress-band,
+.summary-band,
+.schedule-grid,
+.summary-table {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
 }
 
 body.has-photo-bg::before {
@@ -206,12 +220,12 @@ h3 {
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(251, 252, 250, 0.3);
+  background: var(--cell-bg-strong);
 }
 
 .stat-card strong {
   display: block;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 12px;
 }
 
@@ -219,6 +233,8 @@ h3 {
   margin: 8px 0;
   font-size: 28px;
   font-weight: 900;
+  color: var(--ink);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .stat-track,
@@ -240,7 +256,7 @@ h3 {
 .stat-detail {
   display: block;
   margin-top: 7px;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 700;
 }
@@ -276,12 +292,13 @@ h3 {
 
 .module-percent {
   flex: 0 0 auto;
-  color: var(--accent-dark);
+  color: var(--ink);
   font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
 .module-meta {
-  color: var(--muted);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 800;
 }
@@ -354,7 +371,7 @@ h3 {
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: var(--muted);
+  color: var(--ink);
   font-weight: 800;
 }
 
@@ -403,7 +420,7 @@ h3 {
 }
 
 .clear-button {
-  color: var(--accent-dark);
+  color: var(--ink);
 }
 
 .tool-menu {
@@ -431,7 +448,8 @@ h3 {
 
 .tool-menu[open] summary {
   border-color: rgba(40, 124, 102, 0.38);
-  background: #f7fbf9;
+  background: var(--solid-panel);
+  color: var(--solid-ink);
 }
 
 .tool-menu-panel {
@@ -444,7 +462,8 @@ h3 {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--solid-panel);
+  color: var(--solid-ink);
   box-shadow: 0 14px 30px rgba(31, 43, 39, 0.14);
 }
 
@@ -452,8 +471,8 @@ h3 {
   min-height: 38px;
   border: 0;
   border-bottom: 1px solid var(--line);
-  background: transparent;
-  color: var(--accent-dark);
+  background: var(--solid-panel);
+  color: var(--solid-ink);
   padding: 0 14px;
   text-align: left;
   font-size: 14px;
@@ -466,7 +485,8 @@ h3 {
 
 .menu-button:hover,
 .menu-button:focus-visible {
-  background: var(--soft);
+  background: var(--solid-hover);
+  color: var(--solid-ink);
   outline: none;
 }
 
@@ -491,7 +511,7 @@ h3 {
   flex-wrap: wrap;
   gap: 10px;
   margin: 14px 0;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .date-line strong {
@@ -527,7 +547,7 @@ h3 {
 .corner-cell,
 .day-cell,
 .time-cell {
-  background: rgba(237, 244, 241, 0.38);
+  background: var(--cell-bg-strong);
   font-weight: 700;
 }
 
@@ -535,7 +555,7 @@ h3 {
 .time-cell {
   display: grid;
   place-items: center;
-  color: var(--muted);
+  color: var(--ink);
   position: sticky;
   left: 0;
   z-index: 2;
@@ -562,7 +582,7 @@ h3 {
 .day-cell .date {
   display: block;
   margin-top: 3px;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 13px;
 }
 
@@ -578,7 +598,7 @@ h3 {
   border: 1px dashed transparent;
   border-radius: 6px;
   background: transparent;
-  color: var(--muted);
+  color: var(--ink);
   text-align: left;
   padding: 7px;
   overflow: hidden;
@@ -587,21 +607,21 @@ h3 {
 .plan-button:hover,
 .plan-button:focus-visible {
   border-color: var(--accent);
-  background: rgba(247, 251, 249, 0.34);
+  background: var(--cell-bg-strong);
   outline: none;
 }
 
 .plan-button.has-plan {
   border-style: solid;
   border-color: rgba(40, 124, 102, 0.28);
-  background: rgba(234, 246, 241, 0.34);
+  background: var(--cell-bg-strong);
   color: var(--ink);
   border-left: 5px solid var(--category-color, var(--accent));
 }
 
 .plan-button.is-done {
-  background: rgba(240, 241, 237, 0.3);
-  color: #7b8078;
+  background: var(--cell-bg);
+  color: var(--ink);
   text-decoration: line-through;
 }
 
@@ -616,7 +636,7 @@ h3 {
 .plan-meta {
   display: block;
   margin-bottom: 3px;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 11px;
   font-weight: 800;
 }
@@ -649,8 +669,8 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.38);
-  color: var(--muted);
+  background: var(--cell-bg-strong);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 700;
 }
@@ -709,13 +729,13 @@ h3 {
 }
 
 .summary-subtasks li.is-done {
-  color: var(--muted);
+  color: var(--ink);
   text-decoration: line-through;
 }
 
 .summary-subtasks-note {
   margin: 0;
-  color: var(--muted);
+  color: var(--ink);
   font-size: 12px;
 }
 
@@ -735,13 +755,13 @@ h3 {
 }
 
 .done-row {
-  color: var(--muted);
+  color: var(--ink);
   text-decoration: line-through;
 }
 
 .empty-state {
   margin: 18px 0 2px;
-  color: var(--muted);
+  color: var(--ink);
   text-align: center;
 }
 
@@ -753,7 +773,8 @@ h3 {
   border-radius: 8px;
   padding: 0;
   box-shadow: var(--shadow);
-  background: var(--panel-bg-strong);
+  background: var(--solid-panel);
+  color: var(--solid-ink);
 }
 
 .wide-dialog {
@@ -795,8 +816,8 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 12px;
-  color: var(--ink);
-  background: var(--panel-bg-strong);
+  color: var(--solid-ink);
+  background: var(--solid-field);
 }
 
 .plan-field textarea {
@@ -804,7 +825,7 @@ h3 {
 }
 
 .field-hint {
-  color: var(--muted);
+  color: var(--solid-muted);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.45;
@@ -816,8 +837,8 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0 12px;
-  background: var(--panel-bg-strong);
-  color: var(--ink);
+  background: var(--solid-field);
+  color: var(--solid-ink);
 }
 
 .plan-field select:focus,
@@ -846,11 +867,12 @@ h3 {
   background: var(--swatch-color);
   color: var(--swatch-text, var(--ink));
   font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .theme-swatch.is-active {
-  outline: 3px solid rgba(40, 124, 102, 0.28);
+  outline: 3px solid var(--accent);
   border-color: var(--accent);
 }
 
@@ -869,7 +891,8 @@ h3 {
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--panel-bg-strong);
+  background: var(--solid-field);
+  color: var(--solid-ink);
   font-weight: 800;
 }
 
@@ -899,7 +922,7 @@ h3 {
 
 .dialog-note {
   margin: 16px 0;
-  color: var(--muted);
+  color: var(--solid-muted);
   line-height: 1.6;
 }
 
@@ -918,7 +941,8 @@ h3 {
   border: 1px solid var(--line);
   border-left: 6px solid var(--category-color, var(--accent));
   border-radius: 8px;
-  background: var(--cell-bg-strong);
+  background: var(--solid-field);
+  color: var(--solid-ink);
 }
 
 .task-item strong {
@@ -927,7 +951,7 @@ h3 {
 }
 
 .task-item small {
-  color: var(--muted);
+  color: var(--solid-muted);
 }
 
 .reschedule-row {
@@ -950,7 +974,8 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0 10px;
-  color: var(--ink);
+  background: var(--solid-field);
+  color: var(--solid-ink);
 }
 
 .mood-grid {
@@ -964,15 +989,15 @@ h3 {
   min-height: 48px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--panel-bg-strong);
-  color: var(--ink);
+  background: var(--solid-field);
+  color: var(--solid-ink);
   font-weight: 800;
 }
 
 .mood-button:hover,
 .mood-button:focus-visible {
   border-color: var(--accent);
-  background: rgba(247, 251, 249, 0.78);
+  background: var(--solid-hover);
   outline: none;
 }
 

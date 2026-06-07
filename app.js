@@ -11,7 +11,7 @@ const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const backgroundStorageKey = "simple-week-planner-background";
 const quoteStorageKey = "simple-week-planner-quote";
-const appVersion = "1.7.0";
+const appVersion = "1.7.1";
 const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
 const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
@@ -52,6 +52,11 @@ const themePresets = [
       "--panel-bg-strong": "rgba(20, 27, 30, 0.58)",
       "--cell-bg": "rgba(12, 16, 18, 0.28)",
       "--cell-bg-strong": "rgba(20, 27, 30, 0.48)",
+      "--solid-panel": "#11171a",
+      "--solid-field": "#182125",
+      "--solid-hover": "#213035",
+      "--solid-ink": "#f7fbfa",
+      "--solid-muted": "#d2ddd9",
     },
   },
   {
@@ -69,6 +74,11 @@ const themePresets = [
       "--panel-bg-strong": "rgba(18, 30, 50, 0.58)",
       "--cell-bg": "rgba(10, 18, 32, 0.28)",
       "--cell-bg-strong": "rgba(18, 30, 50, 0.5)",
+      "--solid-panel": "#111d31",
+      "--solid-field": "#182845",
+      "--solid-hover": "#22375c",
+      "--solid-ink": "#f8fbff",
+      "--solid-muted": "#d4deee",
     },
   },
   {
@@ -86,6 +96,11 @@ const themePresets = [
       "--panel-bg-strong": "rgba(50, 24, 54, 0.58)",
       "--cell-bg": "rgba(35, 16, 37, 0.28)",
       "--cell-bg-strong": "rgba(50, 24, 54, 0.5)",
+      "--solid-panel": "#2a1830",
+      "--solid-field": "#37203f",
+      "--solid-hover": "#472a50",
+      "--solid-ink": "#fff8fd",
+      "--solid-muted": "#ead2e8",
     },
   },
   {
@@ -103,6 +118,11 @@ const themePresets = [
       "--panel-bg-strong": "rgba(17, 42, 29, 0.58)",
       "--cell-bg": "rgba(9, 27, 18, 0.28)",
       "--cell-bg-strong": "rgba(17, 42, 29, 0.5)",
+      "--solid-panel": "#11291d",
+      "--solid-field": "#173826",
+      "--solid-hover": "#204b33",
+      "--solid-ink": "#f8fff9",
+      "--solid-muted": "#d0e5d5",
     },
   },
 ];
@@ -799,6 +819,11 @@ function applyBackgroundSettings() {
     "--panel-bg-strong": "rgba(255, 255, 255, 0.46)",
     "--cell-bg": "rgba(255, 255, 255, 0.18)",
     "--cell-bg-strong": "rgba(255, 255, 255, 0.36)",
+    "--solid-panel": "#ffffff",
+    "--solid-field": "#f7fbf9",
+    "--solid-hover": "#edf4f1",
+    "--solid-ink": "#202327",
+    "--solid-muted": "#4f5964",
   };
 
   Object.entries(defaultVars).forEach(([name, value]) => root.style.setProperty(name, value));

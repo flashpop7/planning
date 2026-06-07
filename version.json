@@ -1,5 +1,5 @@
 {
-  "version": "1.7.0",
+  "version": "1.7.1",
   "apkUrl": "",
-  "notes": "Adds theme presets with additional dark backgrounds and matching interface colors."
+  "notes": "Improves background/theme readability with stronger text contrast and solid settings/menu panels."
 }
