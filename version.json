@@ -1,5 +1,5 @@
 {
-  "version": "1.7.1",
+  "version": "1.7.2",
   "apkUrl": "",
-  "notes": "Improves background/theme readability with stronger text contrast and solid settings/menu panels."
+  "notes": "Renames the background entry to theme and clarifies theme styles versus photo background settings."
 }

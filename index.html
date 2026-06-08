@@ -41,7 +41,7 @@
               <div class="tool-menu-panel">
                 <button class="menu-button" id="updateBtn" type="button" data-i18n="update">更新</button>
                 <button class="menu-button" id="feedbackBtn" type="button" data-i18n="feedback">反馈</button>
-                <button class="menu-button" id="backgroundBtn" type="button" data-i18n="background">背景</button>
+                <button class="menu-button" id="backgroundBtn" type="button" data-i18n="background">主题</button>
                 <button class="menu-button" id="quoteBtn" type="button" data-i18n="quoteSettings">鼓励语</button>
                 <button class="menu-button" id="langToggle" type="button">EN</button>
               </div>
@@ -280,14 +280,15 @@
         <div class="dialog-head">
           <div>
             <p class="eyebrow">Theme</p>
-            <h3 data-i18n="backgroundTitle">背景设置</h3>
+            <h3 data-i18n="backgroundTitle">主题设置</h3>
           </div>
           <button class="icon-button" value="cancel" type="submit" aria-label="关闭" data-i18n-aria="close">×</button>
         </div>
-        <p class="dialog-note" data-i18n="backgroundNote">可以选择纯色背景，也可以从本机相册选择图片。图片只保存在当前浏览器里，不会上传。</p>
+        <p class="dialog-note" data-i18n="backgroundNote">上方按钮用于切换界面主题样式。下方可以选择相册图片作为页面背景，图片只保存在当前浏览器里，不会上传。</p>
+        <p class="field-hint" data-i18n="themeStyle">主题样式</p>
         <div class="theme-swatches" id="themeSwatches"></div>
         <label class="plan-field">
-          <span data-i18n="photoBackground">相册图片背景</span>
+          <span data-i18n="photoBackground">页面背景图片</span>
           <input id="backgroundImageInput" type="file" accept="image/*" />
         </label>
         <div class="dialog-actions">

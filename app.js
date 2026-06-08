@@ -11,7 +11,7 @@ const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const backgroundStorageKey = "simple-week-planner-background";
 const quoteStorageKey = "simple-week-planner-quote";
-const appVersion = "1.7.1";
+const appVersion = "1.7.2";
 const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
 const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
@@ -136,7 +136,7 @@ const translations = {
     tools: "功能",
     update: "更新",
     feedback: "反馈",
-    background: "背景",
+    background: "主题",
     quoteSettings: "鼓励语",
     undo: "撤销",
     redo: "恢复",
@@ -208,12 +208,13 @@ const translations = {
     progressDetail: "{done}/{total} 个任务完成",
     subtaskProgressDetail: "{done}/{total} 个小任务完成",
     noSubtasks: "未拆分小任务",
-    backgroundTitle: "主题与背景",
-    backgroundNote: "可以选择浅色或深色主题，也可以从本机相册选择图片。图片只保存在当前浏览器里，不会上传。",
-    photoBackground: "相册图片背景",
+    themeStyle: "主题样式",
+    backgroundTitle: "主题设置",
+    backgroundNote: "上方按钮用于切换界面主题样式。下方可以选择相册图片作为页面背景，图片只保存在当前浏览器里，不会上传。",
+    photoBackground: "页面背景图片",
     clearBackgroundImage: "清除图片",
     saveBackground: "完成",
-    backgroundSaved: "背景已更新。",
+    backgroundSaved: "主题设置已更新。",
     imageTooLarge: "图片太大了，建议选择 2MB 以内的图片。",
     quoteTitle: "每日鼓励设置",
     quoteNote: "可以使用系统提供的鼓励语，也可以写一段自己的鼓励语显示在顶部。",
@@ -265,7 +266,7 @@ const translations = {
     tools: "Tools",
     update: "Update",
     feedback: "Feedback",
-    background: "Background",
+    background: "Theme",
     quoteSettings: "Quote",
     undo: "Undo",
     redo: "Redo",
@@ -337,12 +338,13 @@ const translations = {
     progressDetail: "{done}/{total} task(s) done",
     subtaskProgressDetail: "{done}/{total} subtask(s) done",
     noSubtasks: "No subtasks",
-    backgroundTitle: "Theme & Background",
-    backgroundNote: "Choose a light or dark theme, or select a photo from this device. The image stays in this browser and is not uploaded.",
-    photoBackground: "Photo background",
+    themeStyle: "Theme style",
+    backgroundTitle: "Theme Settings",
+    backgroundNote: "Use the buttons above to switch the interface theme. You can also choose a photo below as the page background. The image stays in this browser and is not uploaded.",
+    photoBackground: "Page background photo",
     clearBackgroundImage: "Clear Photo",
     saveBackground: "Done",
-    backgroundSaved: "Background updated.",
+    backgroundSaved: "Theme settings updated.",
     imageTooLarge: "That image is too large. Try an image under 2MB.",
     quoteTitle: "Daily Quote Settings",
     quoteNote: "Use a system quote, or write your own encouragement for the top of the page.",
