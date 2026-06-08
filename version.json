@@ -1,5 +1,5 @@
 {
-  "version": "1.7.2",
+  "version": "1.7.4",
   "apkUrl": "",
-  "notes": "Renames the background entry to theme and clarifies theme styles versus photo background settings."
+  "notes": "Fixes category labels in the task dialog and improves the schedule time-column readability."
 }

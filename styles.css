@@ -561,6 +561,14 @@ h3 {
   z-index: 2;
 }
 
+.time-cell {
+  padding: 6px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
 .corner-cell {
   top: 0;
   z-index: 4;
@@ -1191,7 +1199,11 @@ h3 {
   .corner-cell,
   .time-cell {
     box-shadow: 1px 0 0 var(--line);
-    font-size: 12px;
+  }
+
+  .time-cell {
+    font-size: 13px;
+    line-height: 1.15;
   }
 
   .day-cell {

@@ -11,7 +11,7 @@ const viewModeStorageKey = "simple-week-planner-view-mode";
 const languageStorageKey = "simple-week-planner-language";
 const backgroundStorageKey = "simple-week-planner-background";
 const quoteStorageKey = "simple-week-planner-quote";
-const appVersion = "1.7.2";
+const appVersion = "1.7.4";
 const webAppUrl = "https://flashpop7.github.io/Weekly_Planner/";
 const versionInfoUrl = "version.json";
 const githubIssuesUrl = "https://github.com/flashpop7/Weekly_Planner/issues/new/choose";
@@ -242,6 +242,7 @@ const translations = {
     clearWeekDone: "已清空当前显示周的计划，可以用撤销找回。",
     clearWeekEmpty: "当前显示周没有可清空的计划。",
     clearDoneDone: "已清除当前视图里的完成项，可以用撤销找回来。",
+    timeOverlapWarning: "{date} {time} 已有任务“{task}”。请重新选时间段，或在这个任务模块里添加小任务。",
     carryoverSaved: "已把昨日剩余任务安放到新时间里，可以用撤销回退。",
     carryoverDeleted: "昨日剩余未完成任务已删除，可以用撤销找回。",
     clearWeekConfirm: "确定要清空 {range} 的全部计划吗？这个操作可以用“撤销”恢复。",
@@ -372,6 +373,7 @@ const translations = {
     clearWeekDone: "Cleared plans in the current week. You can undo this.",
     clearWeekEmpty: "There are no plans to clear in the current week.",
     clearDoneDone: "Cleared completed items in the current view. You can undo this.",
+    timeOverlapWarning: "{date} {time} already has “{task}”. Please choose another time block, or add subtasks inside that task module.",
     carryoverSaved: "Remaining tasks were rescheduled. You can undo this.",
     carryoverDeleted: "Unfinished tasks from yesterday were deleted. You can undo this.",
     clearWeekConfirm: "Clear all plans from {range}? You can restore them with Undo.",
@@ -1067,24 +1069,42 @@ function getSegmentSpan(segments, plan) {
   return segments.filter((segment) => segment.start >= planStart && segment.end <= planEnd).length || 1;
 }
 
-function removePlansInRange(dateKey, startMinutes, endMinutes, keepKey = "") {
-
-  Object.keys(plans).forEach((key) => {
-    if (key === keepKey) {
-      return;
+function findOverlappingPlan(dateKey, startMinutes, endMinutes, ignoredKeys = []) {
+  const ignored = new Set(ignoredKeys.filter(Boolean));
+  return getPlansForDate(dateKey).find(({ key, plan }) => {
+    if (ignored.has(key)) {
+      return false;
     }
 
-    const [planDateKey] = key.split("|");
-    if (planDateKey !== dateKey) {
-      return;
-    }
-
-    const planStart = getPlanStartMinutes(plans[key]);
-    const planEnd = getPlanEndMinutes(plans[key]);
-    if (planStart < endMinutes && planEnd > startMinutes) {
-      delete plans[key];
-    }
+    const planStart = getPlanStartMinutes(plan);
+    const planEnd = getPlanEndMinutes(plan);
+    return planStart < endMinutes && planEnd > startMinutes;
   });
+}
+
+function getOverlapWarning(overlap, dateKey) {
+  return t("timeOverlapWarning", {
+    date: dateKey,
+    time: getPlanTimeRange(overlap.plan),
+    task: overlap.plan.text || t("unrecorded"),
+  });
+}
+
+function findPlanCopyOverlap(startTime, endTimeValue, dueDate, ignoredKeys = []) {
+  const startMinutes = timeToMinutes(startTime);
+  const endMinutes = timeToMinutes(endTimeValue);
+  const startDate = fromDateKey(activeDateKey);
+  const endDate = fromDateKey(dueDate);
+
+  for (let date = new Date(startDate); date <= endDate; date = addDays(date, 1)) {
+    const dateKey = toDateKey(date);
+    const overlap = findOverlappingPlan(dateKey, startMinutes, endMinutes, ignoredKeys);
+    if (overlap) {
+      return { ...overlap, dateKey };
+    }
+  }
+
+  return null;
 }
 
 function render() {
@@ -1411,7 +1431,7 @@ function renderCategoryOptions() {
   Object.entries(categories).forEach(([value, category]) => {
     const option = document.createElement("option");
     option.value = value;
-    option.textContent = `${category.icon} ${category.label}`;
+    option.textContent = `${category.icon} ${category.labels[currentLang] || category.labels.zh}`;
     planCategory.appendChild(option);
   });
 }
@@ -1524,7 +1544,6 @@ function createPlanCopies(text, startTime, endTimeValue, category, dueDate, subt
   for (let date = new Date(startDate); date <= endDate; date = addDays(date, 1)) {
     const dateKey = toDateKey(date);
     const key = makeKey(dateKey, timeRange);
-    removePlansInRange(dateKey, startMinutes, endMinutes, key);
     plans[key] = {
       id: plans[key]?.id || `${dateKey}-${timeRange}-${Date.now()}`,
       text,
@@ -1616,12 +1635,13 @@ function renderRescheduleDialog() {
 function saveCarryoverReschedules() {
   const items = Array.from(rescheduleList.querySelectorAll(".task-item"));
   const before = clonePlans();
+  const updates = [];
 
-  items.forEach((item) => {
+  for (const item of items) {
     const oldKey = item.dataset.oldKey;
     const oldPlan = plans[oldKey];
     if (!oldPlan) {
-      return;
+      continue;
     }
 
     const dateKey = item.querySelector(".carry-date").value;
@@ -1632,7 +1652,31 @@ function saveCarryoverReschedules() {
     const normalizedEndTime = minutesToTime(endMinutes);
     const timeRange = makeTimeRange(startTime, normalizedEndTime);
     const newKey = makeKey(dateKey, timeRange);
-    removePlansInRange(dateKey, startMinutes, endMinutes, oldKey);
+    const ignoredKeys = items.map((entry) => entry.dataset.oldKey);
+    const overlap = findOverlappingPlan(dateKey, startMinutes, endMinutes, ignoredKeys);
+    if (overlap) {
+      showCheer(getOverlapWarning(overlap, dateKey));
+      return;
+    }
+
+    const internalOverlap = updates.find((entry) => {
+      return entry.dateKey === dateKey && entry.startMinutes < endMinutes && entry.endMinutes > startMinutes;
+    });
+    if (internalOverlap) {
+      showCheer(
+        t("timeOverlapWarning", {
+          date: dateKey,
+          time: makeTimeRange(internalOverlap.startTime, internalOverlap.endTime),
+          task: internalOverlap.oldPlan.text || t("unrecorded"),
+        }),
+      );
+      return;
+    }
+
+    updates.push({ oldKey, oldPlan, dateKey, startTime, endTime: normalizedEndTime, startMinutes, endMinutes, newKey });
+  }
+
+  updates.forEach(({ oldKey, oldPlan, dateKey, startTime, endTime, endMinutes, startMinutes, newKey }) => {
     delete plans[oldKey];
     plans[newKey] = {
       ...oldPlan,
@@ -1640,7 +1684,7 @@ function saveCarryoverReschedules() {
       mood: "",
       span: Math.max(1, Math.ceil((endMinutes - startMinutes) / 60)),
       startTime,
-      endTime: normalizedEndTime,
+      endTime,
       dueDate: dateKey,
       carriedCount: (oldPlan.carriedCount || 0) + 1,
       carriedFrom: oldKey.split("|")[0],
@@ -1937,12 +1981,24 @@ planDialog.addEventListener("close", () => {
   const subtasks = collectSubtasksFromEditor();
   const before = activePlansBefore || clonePlans();
 
-    if (action === "save" && text && endMinutes > startMinutes) {
-      if (plans[activeKey]) {
-        delete plans[activeKey];
-      }
-      createPlanCopies(text, startValue, endValue, category, dueDate, subtasks);
+  if (action === "save" && text && endMinutes > startMinutes) {
+    const overlap = findPlanCopyOverlap(startValue, endValue, dueDate, [activeKey]);
+    if (overlap) {
+      showCheer(getOverlapWarning(overlap, overlap.dateKey));
+      window.setTimeout(() => {
+        if (!planDialog.open) {
+          planDialog.showModal();
+          planText.focus();
+        }
+      }, 0);
+      return;
     }
+
+    if (plans[activeKey]) {
+      delete plans[activeKey];
+    }
+    createPlanCopies(text, startValue, endValue, category, dueDate, subtasks);
+  }
 
   if (action === "save" && !text) {
     delete plans[activeKey];
